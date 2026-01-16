@@ -8,7 +8,7 @@ steps:
         gcloud functions deploy alert-${_SITO_ID} \
           --gen2 \
           --region=europe-west1 \
-          --runtime=python310 \
+          --runtime=python312 \
           --source=. \
           --entry-point=main_handler \
           --trigger-topic=topic-${_SITO_ID} \
