@@ -1,0 +1,23 @@
+steps:
+  # Step 1: Deploy della Cloud Function
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud functions deploy alert-${_SITO_ID} \
+          --gen2 \
+          --region=europe-west1 \
+          --runtime=python310 \
+          --source=. \
+          --entry-point=main_handler \
+          --trigger-topic=topic-${_SITO_ID} \
+          --set-env-vars=SITO_NAME=${_SITO_ID} \
+          --service-account=github-deployer@analystack.iam.gserviceaccount.com
+
+# Queste variabili vengono sovrascritte nelle impostazioni del Trigger
+substitutions:
+  _SITO_ID: "default"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
